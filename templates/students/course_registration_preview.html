@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Course Registration Preview{% endblock %}
+
+{% block content %}
+    
+    <img id="logo"  src="/static/images/tech-pic.jpg" style="max-width: 250px;">
+
+    <h2>Course Registration Preview</h2>
+    <p><strong>Total Credit Load:</strong> {{ total_credit_load }}</p>
+    
+    <h3>Courses Registered</h3>
+    <ul style="color: black;display: flex;flex-direction: column;align-items: center;align-items: baseline;margin-top: 20px;margin-bottom: 30px;">
+        {% for course in selected_courses %}
+            <li>{{ course.course_code }} - {{ course.course_title }} ({{ course.credit_load }} credits)</li>
+        {% endfor %}
+    </ul>
+
+    <style>
+
+        @media print{
+            body{
+                border: 2px solid #000;
+                border-radius: 10px;
+                padding: 20px;
+                /* max-width: 600px; */
+                margin: 0 auto;
+                background-color: #f9f9f9;
+                box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            #logo{
+                max-width: 50px;
+            }
+        }
+
+    </style>
+
+    <button style="background-color: lavenderblush; border: none; cursor: pointer;" onclick="window.print()">Print</button>
+{% endblock %}

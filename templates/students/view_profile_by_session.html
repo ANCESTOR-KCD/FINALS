@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Profile for Session: {{ session }}</h2>
+
+{% if profiles %}
+  {% for profile in profiles %}
+    <div>
+      <h3>{{ profile.full_name }}</h3>
+      <p>Matriculation Number: {{ profile.matriculation_number }}</p>
+      <p>Email: {{ profile.email }}</p>
+      <p>Current Year of Study: {{ profile.current_year_of_study }}</p>
+      <!-- Add more profile fields as needed -->
+    </div>
+  {% endfor %}
+{% else %}
+  <p>No profile found for this session.</p>
+{% endif %}
+{% endblock %}

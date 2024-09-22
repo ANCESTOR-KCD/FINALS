@@ -1,0 +1,299 @@
+{% extends 'profile_base.html' %}
+
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<img src="/static/images/esut-logo.png">
+
+<section class="container">
+    <header>PROFILE</header>
+    <form id="profileForm" class="form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Styling the form container -->
+        <div class="form-container">
+
+            <div class="input-box">
+                <label for="full_name">Full Name</label>
+                {{ form.full_name }}
+                {% if form.full_name.errors %}
+                    <div class="error">{{ form.full_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="input-box">
+                <label for="matriculation_number">Matriculation Number</label>
+                {{ form.matriculation_number }}
+                {% if form.matriculation_number.errors %}
+                    <div class="error">{{ form.matriculation_number.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="input-box">
+                <label for="email">Email Address</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="error">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="column">
+                <div class="input-box">
+                    <label for="phone_number">Phone Number</label>
+                    {{ form.phone_number }}
+                    {% if form.phone_number.errors %}
+                        <div class="error">{{ form.phone_number.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    <label for="birth_date">Birth Date</label>
+                    {{ form.birth_date }}
+                    {% if form.birth_date.errors %}
+                        <div class="error">{{ form.birth_date.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="gender-box">
+                <h3>Gender</h3>
+                {{ form.gender }}
+                {% if form.gender.errors %}
+                    <div class="error">{{ form.gender.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="input-box">
+                <label for="address">Address</label>
+                {{ form.address }}
+                {% if form.address.errors %}
+                    <div class="error">{{ form.address.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="column">
+                <div class="input-box">
+                    <label for="nationality">Nationality</label>
+                    {{ form.nationality }}
+                    {% if form.nationality.errors %}
+                        <div class="error">{{ form.nationality.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    <label for="state_of_origin">State of Origin</label>
+                    {{ form.state_of_origin }}
+                    {% if form.state_of_origin.errors %}
+                        <div class="error">{{ form.state_of_origin.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="input-box">
+                    <label for="town">Town</label>
+                    {{ form.town }}
+                    {% if form.town.errors %}
+                        <div class="error">{{ form.town.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    <label for="lga">LGA</label>
+                    {{ form.lga }}
+                    {% if form.lga.errors %}
+                        <div class="error">{{ form.lga.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="passport">
+                <h3>Upload your Picture</h3>
+                <div class="mb-3">
+                    <label for="formFile">Choose Image to Upload</label>
+                    {{ form.picture }}
+                    {% if form.picture.errors %}
+                        <div class="error">{{ form.picture.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="image">
+                    <img id="imagePreview" src="" alt="Image Preview" class="img-fluid" style="display:none;" />
+                </div>
+            </div>
+            
+            <button type="submit" id="submitButton">Submit</button>
+            <!-- New print button -->
+            <button type="button" id="printButton" onclick="printForm()">Print</button>
+        </div> <!-- Close form-container -->
+    </form>
+</section>
+
+<!-- Adding custom styles -->
+<style>
+    .form-container {
+        border: 2px solid #000;
+        border-radius: 10px;
+        padding: 20px;
+        /* max-width: 600px; */
+        margin: 0 auto;
+        background-color: #f9f9f9;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+        text-align: center;
+        font-size: 17px;
+        /* font-weight: bold; */
+        margin-bottom: 20px;
+        color:black;
+    }
+
+    .input-box {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        font-size: 16px;
+        box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .input-box .error {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .column {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .column .input-box {
+        width: 48%;
+    }
+
+    #id_gender{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .gender-box h3 {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .passport h3 {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    button {
+        background:linear-gradient(to right, #852b10 0%, #ffffff 100%);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    #picture-clear_id{
+        display: none;
+    }
+
+   .mb-3>a{
+        display: none;
+    }
+
+    .mb-3>label{
+        display: none;
+    }
+
+   
+
+    #printButton:hover {
+        background-color: white;
+    }
+
+    @media print{
+        body{
+            height: 100vh;
+        }
+
+       
+    #imagePreview {
+        display: block !important; /* Ensure the image is displayed when printing */
+        max-width: 250px;
+        position: fixed;
+        top: 0;
+    }
+
+    /* Ensure the form has proper layout when printed */
+    .form-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+
+    }
+
+    button {
+        display: none; /* Hide buttons during printing */
+    }
+}
+
+
+    
+</style>
+
+<script>
+
+function printForm() {
+        window.print();
+    }
+
+    document.querySelector('input[type="file"]').addEventListener('change', function(event) {
+    previewImage(event);
+});
+
+function previewImage(event) {
+    var image = document.getElementById('imagePreview');
+    var file = event.target.files[0];
+
+    // Check if the file is an image
+    if (!file.type.startsWith('image/')) {
+        alert("Please upload a valid image file.");
+        return;
+    }
+
+    // Check file size (e.g., 2MB limit)
+    if (file.size > 2 * 1024 * 1024) {
+        alert("Image size should not exceed 2MB.");
+        return;
+    }
+
+    var reader = new FileReader();
+
+    reader.onload = function() {
+        image.src = reader.result;
+        image.style.display = 'block';  // Show the image
+    };
+
+    reader.readAsDataURL(file); // Read the file as URL
+}
+
+
+    
+</script>
+
+{% endblock %}

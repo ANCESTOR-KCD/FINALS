@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Fees{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">Confirm Fees</h2>
+
+    <div class="carousel-container">
+        <div id="feeCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#feeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="School Fees"></button>
+                <button type="button" data-bs-target="#feeCarousel" data-bs-slide-to="1" aria-label="Department Fees"></button>
+                <button type="button" data-bs-target="#feeCarousel" data-bs-slide-to="2" aria-label="Nausea Fees"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    {% if form.instance.school_fees_receipt %}
+                        <img src="{{ form.instance.school_fees_receipt.url }}" class="d-block w-100" alt="School Fees Receipt">
+                    {% else %}
+                        <div class="placeholder-image">School Fees Receipt<br>Not uploaded yet</div>
+                    {% endif %}
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>School Fees Receipt</h5>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    {% if form.instance.dept_fees_receipt %}
+                        <img src="{{ form.instance.dept_fees_receipt.url }}" class="d-block w-100" alt="Department Fees Receipt">
+                    {% else %}
+                        <div class="placeholder-image">Department Fees Receipt<br>Not uploaded yet</div>
+                    {% endif %}
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Department Fees Receipt</h5>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    {% if form.instance.faculty_fees_receipt %}
+                        <img src="{{ form.instance.faculty_fees_receipt.url }}" class="d-block w-100" alt="Faculty Fees Receipt">
+                    {% else %}
+                        <div class="placeholder-image">Faculty Fees Receipt<br>Not uploaded yet</div>
+                    {% endif %}
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Faculty Fees Receipt</h5>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#feeCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#feeCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% if confirm_fees_objects %}
+    <div class="fee-history">
+        <h3>Fee Confirmation History</h3>
+        {% for fee in confirm_fees_objects %}
+        <div class="fee-history-item">
+            <p>Confirmed on: {{ fee.created_at }}</p>
+            {% if fee.school_fees_receipt %}<p>School Fees Receipt: Uploaded</p>{% endif %}
+            {% if fee.dept_fees_receipt %}<p>Department Fees Receipt: Uploaded</p>{% endif %}
+            {% if fee.faculty_fees_receipt %}<p>Faculty Fees Receipt: Uploaded</p>{% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

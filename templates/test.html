@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="test.css" />
+  </head>
+  <body>
+    <section class="container">
+      <div class="logo">
+        <img style="max-width: 100px;" src="../static/images/tech-pic.jpg" />
+      </div>
+
+      <header>PROFILE</header>
+      <form id="profileForm" class="form">
+        <div class="input-box">
+          <label>Full Name (SURNAME FIRST OTHERS)</label>
+          <input type="text" placeholder="Enter full name" required />
+        </div>
+
+        <div class="input-box">
+          <label>MATRICULATION NUMBER</label>
+          <input type="text" placeholder="Enter Matric No." required />
+        </div>
+
+        <div class="input-box">
+          <label>Email Address</label>
+          <input type="email" placeholder="Enter email address" required />
+        </div>
+
+        <div class="column">
+          <div class="input-box">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="Enter phone number" required />
+          </div>
+          <div class="input-box">
+            <label>Birth Date</label>
+            <input type="date" placeholder="Enter birth date" required />
+          </div>
+        </div>
+
+        <div class="gender-box">
+          <h3>Gender</h3>
+          <div class="gender-option">
+            <div class="gender">
+              <input type="radio" id="check-male" name="gender" value="Male" required />
+              <label for="check-male">Male</label>
+            </div>
+            <div class="gender">
+              <input type="radio" id="check-female" name="gender" value="Female" />
+              <label for="check-female">Female</label>
+            </div>
+            <div class="gender">
+              <input type="radio" id="check-other" name="gender" value="Prefer not to say" />
+              <label for="check-other">Prefer not to say</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-box address">
+          <label>Address</label>
+          <input type="text" placeholder="Enter street address" required />
+
+          <div class="column">
+            <div class="select-box">
+              <select required>
+                <option hidden>Nationality</option>
+                <option>Nigeria</option>
+                <option>America</option>
+                <option>Japan</option>
+                <option>Russia</option>
+                <option>India</option>
+                <option>Nepal</option>
+              </select>
+            </div>
+            <input type="text" placeholder="Enter your State of Origin" required />
+          </div>
+          <div class="column">
+            <input type="text" placeholder="Enter your town" required />
+            <input type="text" placeholder="Enter your LGA" required />
+          </div>
+
+          <div class="passport">
+            <h3>Upload your Picture</h3>
+
+            <!-- Form to Upload Image -->
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Choose Image to Upload</label>
+              <input
+                class="form-control"
+                type="file"
+                id="formFile"
+                accept="image/*"
+                onchange="previewImage(event)"
+                required
+              />
+            </div>
+
+            <!-- Image Preview -->
+            <div class="image">
+              <img
+                id="imagePreview"
+                src=""
+                alt="Image Preview"
+                class="img-fluid"
+                style="max-width: 100%; height: auto; display: none; width: 132px; height: 150px;"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" id="submitButton">Submit</button>
+      </form>
+    </section>
+
+    <script>
+      // Image Preview function
+      function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+          var output = document.getElementById("imagePreview");
+          output.src = reader.result;
+          output.style.display = "block";
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      }
+
+      // Form validation and print function
+      document.getElementById("profileForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent form from submitting normally
+
+        // Check if all fields are valid
+        if (this.checkValidity()) {
+          // Check if the image file is uploaded
+          var fileInput = document.getElementById("formFile");
+          if (!fileInput.value) {
+            alert("Please upload your picture!");
+            return; // Stop further actions if image is not uploaded
+          }
+
+          // If all fields are valid and the image is uploaded, trigger the print function
+          window.print();
+        } else {
+          // Show validation messages
+          this.reportValidity();
+        }
+      });
+    </script>
+  </body>
+</html>
